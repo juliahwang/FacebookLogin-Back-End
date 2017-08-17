@@ -14,9 +14,23 @@ __all__ = (
 User = get_user_model()
 
 
+class TokenUserInfoAPIView(APIView):
+    def post(self, request):
+        token_string = request.data.get('token')
+        try:
+            token = Token.objects.get(key=token_string)
+        except Token.DoesNotExist:
+            raise APIException('token invalid')
+        user = token.user
+        ret = {
+            # 시리얼라이저
+        }
+        return Response(ret)
+
+
 class FacebookLoginAPIView(APIView):
-    FACEBOOK_APP_ID = '359278334486847'
-    FACEBOOK_SECRET_CODE = '49a96598e984ad9dc3086b394bbbade0'
+    FACEBOOK_APP_ID = ''
+    FACEBOOK_SECRET_CODE = ''
     APP_ACCESS_TOKEN = '{}|{}'.format(
         FACEBOOK_APP_ID,
         FACEBOOK_SECRET_CODE
@@ -44,6 +58,7 @@ class FacebookLoginAPIView(APIView):
         # 관련정보를 한번에 리턴
         ret = {
             'token': token.key,
+            # 시리얼라이저를 거쳐서 출력하도록
             # 'user': UserSerializer(user).data,
         }
         return Response(ret)

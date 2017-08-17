@@ -13,7 +13,6 @@ class UserManager(DjangoUserManager):
             user_types=User.USER_TYPE_FACEBOOK
         )
 
-
 class User(AbstractUser):
     USER_TYPE_DJANGO = 'django'
     USER_TYPE_FACEBOOK = 'facebook'
